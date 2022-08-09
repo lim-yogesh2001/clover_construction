@@ -16,7 +16,9 @@ const workerList = "${workerApi}worker-list/";
 const userApi = "$domain/user-api/";
 const userRegister = "${userApi}user-register/";
 const userLogin = "${userApi}user-login/";
+const userLogout = "${userApi}user-logout/";
 
 const hireAndorderApi = "$domain/hireAndOrder-api/";
 const orderListUrl = "${hireAndorderApi}orders-list";
 const hireList = "${hireAndorderApi}hire-woker";
+const orderTranscetionUrl = "$hireAndorderApi/order-transection/";

@@ -5,17 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider with ChangeNotifier {
-  Map<String, dynamic> _userInfo= {
+  Map<String, dynamic> _userInfo = {
     "userId": 0,
     "username": "",
     "email": "",
     "token": "",
   };
 
-  get userInfo{
+  get userInfo {
     return {..._userInfo};
   }
-  
+
   Future<void> register(String username, String password, String fullName,
       String phoneNumber, String email) async {
     const url = userRegister;
@@ -51,6 +51,21 @@ class AuthProvider with ChangeNotifier {
       _userInfo['email'] = responseData['user-info']['email'];
       _userInfo['token'] = responseData['token'];
     } catch (error) {
+      throw error;
+    }
+  }
+
+  Future<void> logout(String token) async {
+    const url = userLogout;
+    try{
+      final response = await http.post(Uri.parse(url),headers: {
+        "Authorization" : "Token $token"
+      });
+      if (response.statusCode >= 400){
+        print("Something Went Wrong");
+        return;
+      }
+    }catch (error){
       throw error;
     }
   }

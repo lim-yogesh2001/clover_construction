@@ -1,10 +1,12 @@
 import 'package:clover_construction/constants/static_urls.dart';
 import 'package:clover_construction/constants/theme.dart';
+import 'package:clover_construction/models/order_transx.dart';
 import 'package:clover_construction/models/orders.dart';
 import 'package:clover_construction/providers/auth.dart';
 import 'package:clover_construction/providers/orders.dart';
 import 'package:clover_construction/providers/store_category.dart';
 import 'package:clover_construction/providers/tools.dart';
+import 'package:clover_construction/providers/transection.dart';
 import 'package:clover_construction/screens/product_payment.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -102,18 +104,18 @@ class _ToolsDetailsScreenState extends State<ToolsDetailsScreen> {
                       style:
                           TextStyle(fontFamily: 'Lato-Regular', fontSize: 16.0),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 2.0,
                     ),
                     Container(
                       height: 130,
                       child: Text(
                         "Description:  \n${toolsData.description}",
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontFamily: 'Lato-Regular', fontSize: 15.0),
                       ),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 2.0,
                     ),
                     Row(
@@ -155,7 +157,7 @@ class _ToolsDetailsScreenState extends State<ToolsDetailsScreen> {
                     ),
                     Row(
                       children: [
-                        Text("Total : "),
+                        const Text("Total : "),
                         Container(
                           width: 50.0,
                           height: 30.0,
@@ -172,41 +174,42 @@ class _ToolsDetailsScreenState extends State<ToolsDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                      width: 200,
-                      child: _isLoading == true ? const CircularProgressIndicator() : MaterialButton(
-                        color: Colors.cyan,
-                        onPressed: () {
-                          setState(() {
-                            _isLoading = true;
-                          });
-                          Provider.of<OrderProvider>(context, listen: false)
-                              .setUserOrder(
-                                  user['userId'],
-                                  DateTime.now(),
-                                  total,
-                                  DateTime.now(),
-                                  _quantity,
-                                  toolsData.id)
-                              .then((_) {
-                            setState(() {
-                              _isLoading = false;
-                            });
-                          }).then((_) {
-                            Navigator.of(context).pushNamed(
-                                ProductPaymnetScreen.routeName,
-                                arguments: toolsData);
-                          });
-                        },
-                        child: const Text(
-                          "Buy",
-                          style: TextStyle(
-                              color: Colors.white, fontFamily: "Lato"),
+                    width: 100,
+                    child: _isLoading == true
+                        ? const CircularProgressIndicator()
+                        : SizedBox(
+                          width: 300.0,
+                          child: KhaltiButton(
+                          config: PaymentConfig(
+                              amount: total,
+                              productIdentity: toolsData.id.toString(),
+                              productUrl: 'https://www.khalti.com/#/bazaar',
+                              productName: toolsData.title),
+                          preferences: const [PaymentPreference.khalti],
+                          onSuccess: (success) async {
+                             setState(() {
+                                  _isLoading = true;
+                                });
+                            await Provider.of<OrderProvider>(context,
+                                    listen: false)
+                                .setUserOrder(
+                                    user['userId'],
+                                    DateTime.now(),
+                                    total,
+                                    DateTime.now(),
+                                    _quantity,
+                                    toolsData.id);
+                             setState(() {
+                                    _isLoading = false;
+                                  });
+                            await Provider.of<TransectionProvider>(context,
+                                    listen: false)
+                                .setOrderTransection(
+                                    OrderTransection(0, success.idx, false));
+                          },
+                          onFailure: (_) {}),
                         ),
-                      )),
-
-                  // SizedBox(
-                  //     width: 200,
-                  //     child: KhaltiButton(config: PaymentConfig(amount: amount, productIdentity: productIdentity, productName: productName), onSuccess: onSuccess, onFailure: onFailure)),
+                  ),
                 ],
               )
             ],

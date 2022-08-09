@@ -14,6 +14,10 @@ class OrderProvider with ChangeNotifier {
     return [..._userOrders];
   }
 
+  get orderPost {
+    return _orderPost.lastWhere((element) => element.id == _orderPost.length - 1); 
+  }
+
   Future<void> setUserOrder(int userId, DateTime date, int total,
       DateTime shipping_time, int prod_quantity, int prodId) async {
     final url = "$orderListUrl/$userId/";

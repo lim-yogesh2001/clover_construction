@@ -92,7 +92,7 @@ class _OrderItemState extends State<OrderItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                        "Order Date:  ${DateFormat('yyy MMMM').format(widget.orderData.date)}"),
+                        "Order Date:  ${DateFormat('yyy MMMM dd').format(widget.orderData.date)}"),
                     const SizedBox(
                       height: 5.0,
                     ),

@@ -20,7 +20,7 @@ class StoreCategoriesItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Card(
-          color: cardBackground,
+          color: Colors.white,
           elevation: 2,
         child: Column(
           children: [

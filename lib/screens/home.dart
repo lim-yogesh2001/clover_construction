@@ -1,13 +1,12 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:clover_construction/constants/static_urls.dart';
 import 'package:clover_construction/constants/theme.dart';
-import 'package:clover_construction/models/store.dart';
 import 'package:clover_construction/providers/auth.dart';
 import 'package:clover_construction/providers/store.dart';
+import 'package:clover_construction/screens/auth.dart';
 import 'package:clover_construction/screens/departments.dart';
 import 'package:clover_construction/screens/hired_workers.dart';
 import 'package:clover_construction/screens/orders.dart';
-import 'package:clover_construction/widgets/app_bar.dart';
 import 'package:clover_construction/widgets/drawer_item.dart';
 import 'package:clover_construction/widgets/store_item.dart';
 import 'package:flutter/material.dart';
@@ -68,43 +67,71 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w700),
         ),
         drawer: Drawer(
-          child: ListView(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: CircleAvatar(
-                        backgroundImage: AssetImage('assets/images/Husky.jpg'),
+          child: SingleChildScrollView(
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: CircleAvatar(
+                          backgroundImage:
+                              AssetImage('assets/images/Husky.jpg'),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 5.0,
-                    ),
-                    Text(userData['email']),
-                    const SizedBox(
-                      height: 3.0,
-                    ),
-                    Text(username, style: const TextStyle(color: textHighlighter, fontWeight: FontWeight.w600),)
-                  ],
+                      const SizedBox(
+                        height: 5.0,
+                      ),
+                      Text(userData['email']),
+                      const SizedBox(
+                        height: 3.0,
+                      ),
+                      Text(
+                        username,
+                        style: const TextStyle(
+                            color: textHighlighter,
+                            fontWeight: FontWeight.w600),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              DrawerItem(icon: Icons.home, title: "Home", function: (){
-                Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-              }),
-              DrawerItem(icon: Icons.work, title: "Hired Workers", function: (){
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed(HiredWorkerScreen.routeName);
-              }),
-              DrawerItem(icon: Icons.beenhere_rounded, title: "Orders", function: (){
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamed(OrdersScreen.routeName);
-              }),
-              DrawerItem(icon: Icons.logout_rounded, title: "Logout", function: (){}),
-            ],
+                DrawerItem(
+                    icon: Icons.home,
+                    title: "Home",
+                    function: () {
+                      Navigator.of(context)
+                          .pushReplacementNamed(HomeScreen.routeName);
+                    }),
+                DrawerItem(
+                    icon: Icons.work,
+                    title: "Hired Workers",
+                    function: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context)
+                          .pushNamed(HiredWorkerScreen.routeName);
+                    }),
+                DrawerItem(
+                    icon: Icons.beenhere_rounded,
+                    title: "Orders",
+                    function: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pushNamed(OrdersScreen.routeName);
+                    }),
+                DrawerItem(
+                    icon: Icons.logout_rounded,
+                    title: "Logout",
+                    function: () {
+                      Provider.of<AuthProvider>(context, listen: false)
+                          .logout(userData['token'])
+                          .then((_) => Navigator.of(context)
+                              .popAndPushNamed(AuthScreen.routeName));
+                    }),
+              ],
+            ),
           ),
         ),
         body: _depPressed == true
@@ -123,11 +150,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                children:  [
+                                children: [
                                   Text(
                                     "Welcome $username",
-                                    style: TextStyle(
-                                    color: Colors.cyan,
+                                    style: const TextStyle(
+                                        color: Colors.cyan,
                                         fontFamily: "Lato-Bold",
                                         fontSize: 22.0,
                                         fontWeight: FontWeight.bold),
@@ -138,7 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   SizedBox(
                                     width: 60,
                                     height: 60,
-                                    child: Image.asset('assets/images/constructionWorker.png', fit: BoxFit.cover,),
+                                    child: Image.asset(
+                                      'assets/images/constructionWorker.png',
+                                      fit: BoxFit.cover,
+                                    ),
                                   )
                                 ],
                               ),
@@ -167,8 +197,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 180,
                             initialPage: 0,
                             aspectRatio: 16 / 8,
-                            autoPlay: false,
-                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlay: true,
+                            autoPlayInterval: const Duration(seconds: 3),
                             scrollDirection: Axis.horizontal,
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
@@ -187,15 +217,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: storeItems.length,
-                          itemBuilder: (ctx, index) => StoreItem(
-                            id: storeItems[index].id,
-                            title: storeItems[index].title,
-                            address: storeItems[index].address,
-                            contact: storeItems[index].contact,
-                            image: storeItems[index].imageUrl,
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: storeItems.length,
+                            itemBuilder: (ctx, index) => StoreItem(
+                              id: storeItems[index].id,
+                              title: storeItems[index].title,
+                              address: storeItems[index].address,
+                              contact: storeItems[index].contact,
+                              image: storeItems[index].imageUrl,
+                            ),
                           ),
                         )
                       ],
@@ -205,13 +238,12 @@ class _HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             setState(() {
               _depPressed = !_depPressed;
-              print(_depPressed);
             });
           },
-          child: _depPressed == false
-              ? Icon(Icons.work_outline_rounded)
-              : Icon(Icons.hardware),
           backgroundColor: secondaryColor,
+          child: _depPressed == false
+              ? const Icon(Icons.work_outline_rounded)
+              : const Icon(Icons.hardware),
         ));
   }
 }

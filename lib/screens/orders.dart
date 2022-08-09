@@ -28,30 +28,28 @@ class OrdersScreen extends StatelessWidget {
             fontWeight: FontWeight.w700),
       ),
       body: SafeArea(
-          child: SingleChildScrollView(
-        child: FutureBuilder(
-          future: Provider.of<OrderProvider>(context, listen: false)
-              .fetchUserOrders(userId),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else {
-              return Consumer<OrderProvider>(builder: (ctx, order, child) {
-                return ListView.builder(
+          child: FutureBuilder(
+            future: Provider.of<OrderProvider>(context, listen: false)
+                .fetchUserOrders(userId),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return Consumer<OrderProvider>(builder: (ctx, order, child) {
+                  return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: order.userOrders.length,
-                    itemBuilder: (ct, i) {
-                      return OrderItem(
-                        orderData: order.userOrders[i],
-                      );
-                    });
-              });
-            }
-          },
-        ),
-      )),
+                      itemCount: order.userOrders.length,
+                      itemBuilder: (ct, i) {
+                        return OrderItem(
+                          orderData: order.userOrders[i],
+                        );
+                      });
+                });
+              }
+            },
+          )),
     );
   }
 }

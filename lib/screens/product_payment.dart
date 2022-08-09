@@ -15,10 +15,10 @@ class ProductPaymnetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final toolsData = ModalRoute.of(context)!.settings.arguments as Tools;
+    final objData = ModalRoute.of(context)!.settings.arguments as Map<String, Object>;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Confirmation Screen", style: TextStyle(color: Colors.black),),
+        title: const Text("Confirmation Screen", style: TextStyle(color: Colors.black),),
         backgroundColor: Colors.white,
         elevation: 1.0,
         iconTheme: Theme.of(context).iconTheme,
@@ -29,11 +29,11 @@ class ProductPaymnetScreen extends StatelessWidget {
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.95,
             child: Card(
-              margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
+              margin: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
               child: Column(
                 children: [
                   Text(
-                    toolsData.title,
+                    objData['tools'].toString(),
                     style: const TextStyle(
                         fontFamily: "Lato-Bold",
                         fontSize: 24.0,
@@ -46,13 +46,13 @@ class ProductPaymnetScreen extends StatelessWidget {
                   SizedBox(
                     height: 150.0,
                     width: MediaQuery.of(context).size.width * 0.8,
-                    child: Image.network(domain + toolsData.image),
+                    // child: Image.network(),
                   ),
                   const SizedBox(
                     height: 10.0,
                   ),
                   Text(
-                    " Price: ${toolsData.price}",
+                    " Price: ",
                     style: const TextStyle(
                         fontSize: 18.0,
                         color: Colors.green,
@@ -68,7 +68,7 @@ class ProductPaymnetScreen extends StatelessWidget {
                       const Text("Your Order was placed succcessfully!")
                     ],
                   ),
-                  Center(
+                  const Center(
                       // child: KhaltiButton(config: config, onSuccess: onSuccess, onFailure: onFailure),
                       )
                 ],

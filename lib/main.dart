@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return KhaltiScope(
-      publicKey: "",
+      publicKey: "test_public_key_5904412e4d6243c6aaebe2de1969b623",
       builder: (context, navigatorkey) {
         return MultiProvider(
           providers: [

@@ -18,7 +18,7 @@ class ToolsScreen extends StatelessWidget {
         centerTitle: true,
         iconTheme: Theme.of(context).iconTheme,
         backgroundColor: Colors.white,
-        title: Text("Tools Screen", style: TextStyle(color: Colors.black),),
+        title: const Text("Tools Screen", style: TextStyle(color: Colors.black),),
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
