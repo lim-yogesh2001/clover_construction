@@ -24,7 +24,7 @@ class StoreCategoryProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
         final List<StoreCategory> loadedItems = [];
-        extractedData.forEach((element) {
+        for (var element in extractedData) {
           loadedItems.insert(
             0,
             StoreCategory(
@@ -32,7 +32,7 @@ class StoreCategoryProvider with ChangeNotifier {
                 categoryImage: element['category_image'],
                 categoryName: element['category_name']),
           );
-        });
+        }
         _storeCategories = loadedItems;
         notifyListeners();
       } else {

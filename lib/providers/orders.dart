@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class OrderProvider with ChangeNotifier {
   List<Order> _userOrders = [];
-  List<OrderPost> _orderPost = [];
+  final List<OrderPost> _orderPost = [];
 
   get userOrders {
     return [..._userOrders];
@@ -38,10 +38,7 @@ class OrderProvider with ChangeNotifier {
           'Content-Type': 'application/json'
         },
       );
-      final responseData = json.decode(response.body);
-      print(responseData);
       if (response.statusCode >= 400) {
-        print("Bad Request");
         return;
       }
       final newOrder = OrderPost(
@@ -53,7 +50,6 @@ class OrderProvider with ChangeNotifier {
         prodId,
         userId,
       );
-      print(newOrder);
       _orderPost.add(newOrder);
       notifyListeners();
     } catch (error) {
@@ -71,7 +67,7 @@ class OrderProvider with ChangeNotifier {
         if (extractedData.isEmpty) {
           return;
         } else {
-          extractedData.forEach((element) {
+          for (var element in extractedData) {
             loadedItem.insert(
                 0,
                 Order(
@@ -90,7 +86,7 @@ class OrderProvider with ChangeNotifier {
                     category_id: element['products']['category_id'],
                   ),
                 ));
-          });
+          }
           _userOrders = loadedItem;
           notifyListeners();
         }

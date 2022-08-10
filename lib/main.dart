@@ -3,6 +3,7 @@ import 'package:clover_construction/providers/auth.dart';
 import 'package:clover_construction/providers/department.dart';
 import 'package:clover_construction/providers/hireWorkers.dart';
 import 'package:clover_construction/providers/orders.dart';
+import 'package:clover_construction/providers/profile.dart';
 import 'package:clover_construction/providers/store.dart';
 import 'package:clover_construction/providers/store_category.dart';
 import 'package:clover_construction/providers/tools.dart';
@@ -12,6 +13,8 @@ import 'package:clover_construction/screens/hired_workers.dart';
 import 'package:clover_construction/screens/orders.dart';
 import 'package:clover_construction/screens/home.dart';
 import 'package:clover_construction/screens/product_payment.dart';
+import 'package:clover_construction/screens/profile.dart';
+import 'package:clover_construction/screens/splash.dart';
 import 'package:clover_construction/screens/store_category.dart';
 import 'package:clover_construction/screens/tools.dart';
 import 'package:clover_construction/screens/tools_details.dart';
@@ -50,7 +53,8 @@ class MyApp extends StatelessWidget {
             ChangeNotifierProvider(create: (context) => StoreToolsProvider()),
             ChangeNotifierProvider(create: (context) => DepartmentProvider()),
             ChangeNotifierProvider(create: (context) => OrderProvider()),
-            ChangeNotifierProvider(create: (context) => HiredWorker())
+            ChangeNotifierProvider(create: (context) => HiredWorker()),
+            ChangeNotifierProvider(create: (context) => ProfileProvider())
           ],
           child: MaterialApp(
             navigatorKey: navigatorkey,
@@ -72,8 +76,9 @@ class MyApp extends StatelessWidget {
             localizationsDelegates: const[
               KhaltiLocalizations.delegate,
             ],
-            home: const AuthScreen(),
+            home: const SplashScreen(),
             routes: {
+              AuthScreen.routeName: (context) => const AuthScreen(),
               HomeScreen.routeName: (context) => const HomeScreen(),
               StoreCategoryScreen.routeName: (context) =>
                   const StoreCategoryScreen(),
@@ -86,6 +91,7 @@ class MyApp extends StatelessWidget {
               OrdersScreen.routeName: (context) => const OrdersScreen(),
               ProductPaymnetScreen.routeName:(context) => const ProductPaymnetScreen(),
               HiredWorkerScreen.routeName: (context) => const HiredWorkerScreen(),
+              ProfileScreen.routeName: (context) => const ProfileScreen()
             },
           ),
         );

@@ -17,10 +17,7 @@ class TransectionProvider with ChangeNotifier {
             "transection_code": ordtrans.transectionCode,
             "status": ordtrans.status
           }));
-      final responseData = json.decode(response.body);
-      print(responseData);
       if (response.statusCode >= 400) {
-        print("Something Went Wrong");
         return;
       }
       final newOrderTransection = OrderTransection(

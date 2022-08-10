@@ -25,7 +25,7 @@ class DepartmentProvider with ChangeNotifier {
       if (extractedData.isEmpty) {
         return;
       }
-      extractedData.forEach((element) {
+      for (var element in extractedData) {
         loadedItems.insert(
             0,
             Department(
@@ -33,7 +33,7 @@ class DepartmentProvider with ChangeNotifier {
               title: element['title'],
               imageUrl: element['image'],
             ));
-      });
+      }
       _departments = loadedItems;
       notifyListeners();
     } catch (error) {

@@ -23,7 +23,7 @@ class Stores with ChangeNotifier {
       if (response.statusCode == 200) {
         final extractedData = json.decode(response.body) as List<dynamic>;
         final List<Store> loadedItem = [];
-        extractedData.forEach((element) {
+        for (var element in extractedData) {
           loadedItem.insert(
               0,
               Store(
@@ -35,7 +35,7 @@ class Stores with ChangeNotifier {
                 store_description: element['store_description'],
                 is_recent: element['is_recent'],
               ));
-        });
+        }
         _stores = loadedItem;
         notifyListeners();
       } else {

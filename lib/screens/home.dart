@@ -7,6 +7,7 @@ import 'package:clover_construction/screens/auth.dart';
 import 'package:clover_construction/screens/departments.dart';
 import 'package:clover_construction/screens/hired_workers.dart';
 import 'package:clover_construction/screens/orders.dart';
+import 'package:clover_construction/screens/profile.dart';
 import 'package:clover_construction/widgets/drawer_item.dart';
 import 'package:clover_construction/widgets/store_item.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +106,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     function: () {
                       Navigator.of(context)
                           .pushReplacementNamed(HomeScreen.routeName);
+                    }),
+                DrawerItem(
+                    icon: Icons.home,
+                    title: "Profile",
+                    function: () {
+                      Navigator.of(context).pushNamed(ProfileScreen.routeName);
                     }),
                 DrawerItem(
                     icon: Icons.work,

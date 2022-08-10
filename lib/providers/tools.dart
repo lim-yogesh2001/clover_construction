@@ -26,7 +26,7 @@ class StoreToolsProvider with ChangeNotifier {
   }
 
   Future<void> fetchTools(String storeId, String categoryId) async {
-    final url = "${productListApi}$storeId/$categoryId";
+    final url = "$productListApi$storeId/$categoryId";
     try {
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {

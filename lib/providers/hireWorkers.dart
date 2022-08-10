@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class HiredWorker with ChangeNotifier {
   List<HireGETWorker> _hiredWorkers = [];
-  List<HirePostWorker> _hiredPostWorkers = [];
+  final List<HirePostWorker> _hiredPostWorkers = [];
 
   get hiredWorkers {
     return [..._hiredWorkers];
